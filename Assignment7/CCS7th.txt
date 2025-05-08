@@ -1,0 +1,69 @@
+                                                                           
+┌──(root㉿kali)-[/home]
+└─# cd ..
+                                                                                
+┌──(root㉿kali)-[/]
+└─#  echo -e "Hello\nAdesh" > abc45.txt
+
+                                                                                
+┌──(root㉿kali)-[/]
+└─#  zip --password secret123 word.zip abc45.txt 
+  adding: abc45.txt (stored 0%)
+                                                                                
+┌──(root㉿kali)-[/]
+└─#  zip2john word.zip > ziphash.txt
+ver 1.0 efh 5455 efh 7875 word.zip/abc45.txt PKZIP Encr: 2b chk, TS_chk, cmplen=25, decmplen=13, crc=CBB25FB8 ts=3692 cs=3692 type=0
+                                                                                
+┌──(root㉿kali)-[/]
+└─# sudo apt install wordlists
+
+wordlists is already the newest version (2023.2.0).
+The following packages were automatically installed and are no longer required:
+  fonts-liberation2         libplacebo338
+  ibverbs-providers         libplist3
+  kirigami-addons-data      libpostproc57
+  libassuan0                libproxy1-plugin-gsettings
+  libavfilter9              libproxy1-plugin-networkmanager
+  libboost-iostreams1.83.0  libproxy1-plugin-webkit
+  libcephfs2                libpython3.11-dev
+  libdisplay-info1          librados2
+  libgeos3.12.2             librdmacm1t64
+  libgfapi0                 libusbmuxd6
+  libgfrpc0                 openjdk-17-jre
+  libgfxdr0                 openjdk-17-jre-headless
+  libglusterfs0             python3-lib2to3
+  libibverbs1               python3.11
+  libimobiledevice6         python3.11-dev
+  libjsoncpp25              python3.11-minimal
+  libkf5iconthemes-bin      rwho
+  libkf5pulseaudioqt4       rwhod
+  libkf5xmlgui-bin          samba-vfs-modules
+Use 'sudo apt autoremove' to remove them.
+
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 774
+                                                                                
+┌──(root㉿kali)-[/]
+└─#  sudo gzip -d /usr/share/wordlists/rockyou.txt.gz
+
+gzip: /usr/share/wordlists/rockyou.txt.gz: No such file or directory
+                                                                                
+┌──(root㉿kali)-[/]
+└─#  john ziphash.txt --wordlist=/usr/share/wordlists/rockyou.txt  
+
+Using default input encoding: UTF-8
+Loaded 1 password hash (PKZIP [32/64])
+Will run 6 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+secret123        (word.zip/abc45.txt)     
+1g 0:00:00:00 DONE (2025-04-15 06:54) 100.0g/s 2457Kp/s 2457Kc/s 2457KC/s havana..280789
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed. 
+                                                                                
+┌──(root㉿kali)-[/]
+└─#  john --show ziphash.txt
+
+word.zip/abc45.txt:secret123:abc45.txt:word.zip::word.zip
+
+1 password hash cracked, 0 left
+                                                                                
